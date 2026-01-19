@@ -31,3 +31,36 @@ console.log(tanyer1);
 console.log(tanyer2);
 console.log(tanyer3);
 console.log(pohar1);
+
+
+class Evoeszkoz {
+    constructor(hegyekSzama) {this.hegyekSzama = hegyekSzama};
+}
+
+class Kes extends Evoeszkoz {
+    constructor(markolatTipus) {
+        super(0);
+        this.markolatTipus = markolatTipus;
+    }
+}
+
+class Villa extends Evoeszkoz {
+    constructor() {
+        super(4);
+    }
+}
+
+class Pohar_Ev {
+    constructor(urtartalom) {
+        this.urtartalom = urtartalom;
+    }
+}
+
+
+const kes = new Kes("fem");
+const villa = new Villa();
+const pohar = new Pohar_Ev(3);
+
+console.log(kes);
+console.log(villa);
+console.log(pohar);
