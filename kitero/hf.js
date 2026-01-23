@@ -6,7 +6,6 @@ function Pohar() {
     this.anyag = 'uveg';
 }
 
-
 function KisTanyer(szin) {
     Tanyer.call(this, szin);
     this.meret = 'kicsi';
@@ -17,10 +16,8 @@ function NagyTanyer(szin) {
     this.meret = 'nagy';
 }
 
-
 Object.setPrototypeOf(KisTanyer.prototype, Tanyer.prototype);
 Object.setPrototypeOf(NagyTanyer.prototype, Tanyer.prototype);
-
 
 const tanyer1 = new KisTanyer('piros');
 const tanyer2 = new KisTanyer('kek');
@@ -31,6 +28,7 @@ console.log(tanyer1);
 console.log(tanyer2);
 console.log(tanyer3);
 console.log(pohar1);
+
 
 
 class Evoeszkoz {
@@ -55,7 +53,6 @@ class Pohar_Ev {
         this.urtartalom = urtartalom;
     }
 }
-
 
 const kes = new Kes("fem");
 const villa = new Villa();
