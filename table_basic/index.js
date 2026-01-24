@@ -192,3 +192,86 @@ function onClickButton(e) {
         tr.appendChild(td3);
     })
 }
+
+
+const colspanButton = document.createElement('button');
+colspanButton.innerText = "Colspan hozzáadás";
+document.body.appendChild(colspanButton);
+
+colspanButton.addEventListener('click', function(e) {
+    e.preventDefault();
+
+    /**
+     * @type {RowspanRowType}
+     */
+    const obj = {
+        author: "Kolto",
+        title: "Cim",
+        concepts: "Concept 1",
+        concepts2: "Concept 2"
+    };
+
+    colspanTable.appendRow(function(body) {
+        const tr = document.createElement('tr');
+        body.appendChild(tr);
+
+        const td1 = document.createElement('td');
+        td1.innerText = obj.author;
+        tr.appendChild(td1);
+
+        const td2 = document.createElement('td');
+        td2.innerText = obj.title;
+        tr.appendChild(td2);
+
+        const td3 = document.createElement('td');
+        td3.innerText = obj.concepts;
+        tr.appendChild(td3);
+
+        if(obj.concepts2) {
+            const td4 = document.createElement('td');
+            td4.innerText = obj.concepts2;
+            tr.appendChild(td4);
+        }else {
+            td3.colSpan = 2;
+        }
+    })
+})
+ 
+function onClickButton(e) {
+    e.preventDefault();
+
+    /**
+     * @type {RowspanRowType}
+     */
+    const obj = {
+        author: "Kolto",
+        title: "Cim",
+        concepts: "Concept 1",
+        concepts2: "Concept 2"
+    };
+
+    colspanTable.appendRow(function(body) {
+        const tr = document.createElement('tr');
+        body.appendChild(tr);
+
+        const td1 = document.createElement('td');
+        td1.innerText = obj.author;
+        tr.appendChild(td1);
+
+        const td2 = document.createElement('td');
+        td2.innerText = obj.title;
+        tr.appendChild(td2);
+
+        const td3 = document.createElement('td');
+        td3.innerText = obj.concepts;
+        tr.appendChild(td3);
+
+        if(obj.concepts2) {
+            const td4 = document.createElement('td');
+            td4.innerText = obj.concepts2;
+            tr.appendChild(td4);
+        }else {
+            td3.colSpan = 2;
+        }
+    })
+}
