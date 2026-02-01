@@ -2,6 +2,14 @@
  * @typedef {{author: string, title1: string, concepts1: string, title2?: string,  concepts2?: string}} RowspanRowType  
  * @typedef {{author: string, title: string, concepts: string, concepts2?: string}} ColspanRowType
  * @typedef {{name: string, colSpan?: number}} HeaderType
+ * 
+ * @callback RenderRowCallback
+ * @param {HTMLTableSectionElement} tbody
+ * @returns {void}
+ *
+ * @callback AppendRowCallback
+ * @param {HTMLTableSectionElement} tbody
+ * @returns {void}
 */
 
 /** @type {HeaderType[]}  */
@@ -68,9 +76,9 @@ const colspanBodyArr = [
 // renderColspanBody(makeTableBodyWithHeader(colspanHeaderArr), colspanBodyArr)
 // renderRowspanBody(makeTableBodyWithHeader(rowspanHeaderArr), rowspanBodyArr)
 
+
 /**
- * @callback RenderRowCallback
- * @param {HTMLTableSectionElement}
+ * @param {HeaderType[]} headerArr
  */
 class Table {
     #tbody;
@@ -83,6 +91,9 @@ class Table {
         this.#tbody = makeTableBodyWithHeader(headerArr);
     }
 
+    /**
+    * @param {AppendRowCallback} callback
+    */
     appendRow(callback) {
         callback(this.#tbody);
     }
@@ -93,8 +104,11 @@ class ColspanTable extends Table {
         super(headerArr);
     }
 
-    render(colspanBodyArr) {
-        renderColspanBody(this.tbody, colspanBodyArr);
+    /**
+    * @param {ColspanRowType[]} bodyArr
+    */
+    render(bodyArr) {
+        renderColspanBody(this.tbody, bodyArr);
     }
 }
 
@@ -103,8 +117,11 @@ class RowspanTable extends Table {
         super(headerArr);
     }
 
-    render(rowspanBodyArr) {
-        renderRowspanBody(this.tbody, rowspanBodyArr);
+    /**
+    * @param {RowspanRowType[]} bodyArr
+    */
+    render(bodyArr) {
+        renderRowspanBody(this.tbody, bodyArr);
     }
 }
 
@@ -114,164 +131,118 @@ colspanTable.render(colspanBodyArr);
 const rowspanTable = new RowspanTable(rowspanHeaderArr);
 rowspanTable.render(rowspanBodyArr);
 
-/*
-function doSomething(callback) {
-    callback(tbody);
+/**
+ * gomb letrehozo fuggveny
+ * @param {string} text
+ * @returns {HTMLButtonElement}
+ */
+function buttonCreater(text) {
+    const button = document.createElement("button");
+    button.innerText = text;
+    document.body.appendChild(button);
+    return button;
 }
 
-doSomething(function(tableTorzs) {
-    const tr = document.createElement('tr');
-    tableTorzsa.appendChild(tr);
-}) 
-*/
+const rowspanButton = buttonCreater("Rowspan elem hozzáadása");
+const colspanButton = buttonCreater("Colspan elem hozzáadása");
 
-const rowspanButton = document.createElement('button');
-rowspanButton.innerText = "Rowspan hozzáadás";
-document.body.appendChild(rowspanButton);
+rowspanButton.addEventListener("click", onClickRowSpanButton.bind(rowspanTable));
+colspanButton.addEventListener("click", onClickColSpanButton.bind(colspanTable));
 
-rowspanButton.addEventListener('click', function(e) {
+/**
+ * gomb lenyomasakor hozzafuzi az objektumban megadott sort a rowspanos tablazathoz
+ * @this {RowspanTable}
+ * @param {Event} e
+ */
+function onClickRowSpanButton(e) {
     e.preventDefault();
 
-    /**
-     * @type {RowspanRowType}
-     */
-    const obj = {
+    /** @type {RowspanRowType} */
+    const objektum = {
         author: "Kolto",
         title1: "Cim 1",
         concepts1: "Concept 1",
         title2: "Cim 2",
-        concepts2: "Concept 2"
+        concepts2: "Concept 2",
     };
 
-    rowspanTable.appendRow(function(body) {
-        const tr = document.createElement('tr');
-        body.appendChild(tr);
+    this.appendRow(
+        /** @type {RenderRowCallback} */
+        function (body) {
+            const tr = document.createElement("tr");
+            body.appendChild(tr);
 
-        const td1 = document.createElement('td');
-        td1.innerText = obj.author;
-        tr.appendChild(td1);
+            const td1 = document.createElement("td");
+            tr.appendChild(td1);
+            td1.innerText = objektum.author;
 
-        const td2 = document.createElement('td');
-        td2.innerText = obj.title1;
-        tr.appendChild(td2);
+            const td2 = document.createElement("td");
+            tr.appendChild(td2);
+            td2.innerText = objektum.title1;
 
-        const td3 = document.createElement('td');
-        td3.innerText = obj.concepts1;
-        tr.appendChild(td3);
-    })
-})
- 
-function onClickButton(e) {
-    e.preventDefault();
+            const td3 = document.createElement("td");
+            tr.appendChild(td3);
+            td3.innerText = objektum.concepts1;
 
-    /**
-     * @type {RowspanRowType}
-     */
-    const obj = {
-        author: "Kolto",
-        title1: "Cim 1",
-        concepts1: "Concept 1",
-        title2: "Cim 2",
-        concepts2: "Concept 2"
-    };
+            if (objektum.title2 && objektum.concepts2) {
+                td1.rowSpan = 2;
 
-    rowspanTable.appendRow(function(body) {
-        const tr = document.createElement('tr');
-        body.appendChild(tr);
+                const tr2 = document.createElement("tr");
+                body.appendChild(tr2);
 
-        const td1 = document.createElement('td');
-        td1.innerText = obj.author;
-        tr.appendChild(td1);
+                const td4 = document.createElement("td");
+                tr2.appendChild(td4);
+                td4.innerText = objektum.title2;
 
-        const td2 = document.createElement('td');
-        td2.innerText = obj.title1;
-        tr.appendChild(td2);
-
-        const td3 = document.createElement('td');
-        td3.innerText = obj.concepts1;
-        tr.appendChild(td3);
-    })
+                const td5 = document.createElement("td");
+                tr2.appendChild(td5);
+                td5.innerText = objektum.concepts2;
+            }
+        }
+    );
 }
 
-
-const colspanButton = document.createElement('button');
-colspanButton.innerText = "Colspan hozzáadás";
-document.body.appendChild(colspanButton);
-
-colspanButton.addEventListener('click', function(e) {
+/**
+ * gomb lenyomasakor hozzafuzi az objektumban megadott sort a colspanos tablazathoz
+ * @this {ColspanTable}
+ * @param {Event} e
+ */
+function onClickColSpanButton(e) {
     e.preventDefault();
 
-    /**
-     * @type {RowspanRowType}
-     */
-    const obj = {
+    /** @type {ColspanRowType} */
+    const objektum = {
         author: "Kolto",
-        title: "Cim",
+        title: "Cim 1",
         concepts: "Concept 1",
-        concepts2: "Concept 2"
+        concepts2: "Concept 2",
     };
 
-    colspanTable.appendRow(function(body) {
-        const tr = document.createElement('tr');
-        body.appendChild(tr);
+    this.appendRow(
+        /** @type {RenderRowCallback} */
+        function (body) {
+            const tr = document.createElement("tr");
+            body.appendChild(tr);
 
-        const td1 = document.createElement('td');
-        td1.innerText = obj.author;
-        tr.appendChild(td1);
+            const td1 = document.createElement("td");
+            tr.appendChild(td1);
+            td1.innerText = objektum.author;
 
-        const td2 = document.createElement('td');
-        td2.innerText = obj.title;
-        tr.appendChild(td2);
+            const td2 = document.createElement("td");
+            tr.appendChild(td2);
+                td2.innerText = objektum.title;
 
-        const td3 = document.createElement('td');
-        td3.innerText = obj.concepts;
-        tr.appendChild(td3);
+            const td3 = document.createElement("td");
+            tr.appendChild(td3);
+            td3.innerText = objektum.concepts;
 
-        if(obj.concepts2) {
-            const td4 = document.createElement('td');
-            td4.innerText = obj.concepts2;
-            tr.appendChild(td4);
-        }else {
-            td3.colSpan = 2;
+            if (objektum.concepts2) {
+                const td4 = document.createElement("td");
+                tr.appendChild(td4);
+                td4.innerText = objektum.concepts2;
+            }     else {
+                td3.colSpan = 2;
+            }
         }
-    })
-})
- 
-function onClickButton(e) {
-    e.preventDefault();
-
-    /**
-     * @type {RowspanRowType}
-     */
-    const obj = {
-        author: "Kolto",
-        title: "Cim",
-        concepts: "Concept 1",
-        concepts2: "Concept 2"
-    };
-
-    colspanTable.appendRow(function(body) {
-        const tr = document.createElement('tr');
-        body.appendChild(tr);
-
-        const td1 = document.createElement('td');
-        td1.innerText = obj.author;
-        tr.appendChild(td1);
-
-        const td2 = document.createElement('td');
-        td2.innerText = obj.title;
-        tr.appendChild(td2);
-
-        const td3 = document.createElement('td');
-        td3.innerText = obj.concepts;
-        tr.appendChild(td3);
-
-        if(obj.concepts2) {
-            const td4 = document.createElement('td');
-            td4.innerText = obj.concepts2;
-            tr.appendChild(td4);
-        }else {
-            td3.colSpan = 2;
-        }
-    })
+    );
 }
