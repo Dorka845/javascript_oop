@@ -29,6 +29,7 @@ class Table{
      */
     constructor(headerArray, manager) {
         this.#manager = manager;
+
         // if ('szerzo2' in dataArray[0] && 'mu2' in dataArray[0] ) {
         //     this.#isRowspan = true;
         // } else {
@@ -57,6 +58,8 @@ class Table{
                 th.colSpan = 2;
             }
         }
+
+
         // for (const row of dataArray) {
         //     this.#addRow(row);
         // }
@@ -114,6 +117,8 @@ class Table{
     //     }
     // }
 
+    
+
     // /**
     //  * Rowspan tipusu sor hozzaadasa
     //  * @param {RowspanType} data 
@@ -150,6 +155,7 @@ class Table{
     //     }
     // }
 
+
     /**
      * 
      * @param {TableCallback} tableCallback 
@@ -164,3 +170,4 @@ class Table{
 export { Table }
 
 // public fuggveny a tablenek ami besetteli a callbackjet a managernek
+// fuggetlenne teszi a table osztaly a colspan tablazattol

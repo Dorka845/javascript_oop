@@ -67,8 +67,6 @@ class FormController{
     }
 }
 
-
-
 class FormField{
     /**
      * @type {HTMLInputElement}
@@ -148,9 +146,5 @@ class FormField{
         return this.#name;
     }
 }
-
-
-
-
 
 export { FormController }
