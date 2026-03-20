@@ -1,13 +1,12 @@
-/**
+/*
  * @typedef {{id: number, author?: string, work?: string, concept?: string}} AuthorType
  * @typedef {{id: string, label: string, name: string}} FormFieldType
  */
 
 import { FormController } from "./form.js";
-import { ImportExport } from "./importexport.js";
 import { AuthorManager } from "./manager.js";
 import { Navbar } from "./navigationbar.js"
-import { TableView } from "./table.js";
+import { Table } from "./table.js";
 
 const formFields = [{
     id: 'author',
@@ -28,15 +27,17 @@ const formFields = [{
 const headerArray = ['Szerző', 'Mű', 'Fogalom']
 
 const manager = new AuthorManager();
+manager.addElement({
+    author: 'aaaa',
+    concept: 'bbbb',
+    work: 'cccc'
+})
 const navbar = new Navbar();
 navbar.appendTo(document.body);
-const table = new TableView('table', headerArray, manager);
+const table = new Table('table', headerArray);
 table.appendTo(document.body);
-navbar.addViewElement("Táblázat", table);
-const form = new FormController("tableForm", formFields, manager);
+navbar.addViewElement('Táblázat', table);
+const form = new FormController('tableForm');
 form.appendTo(document.body);
-const importExport = new ImportExport('importexport', manager);
-importExport.appendTo(document.body);
-navbar.addViewElement("Form", form);
-navbar.addViewElement('Import/Export', importExport);
-navbar.activate("table");
+navbar.addViewElement('Form', form);
+navbar.activate('table');
