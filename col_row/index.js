@@ -69,9 +69,6 @@ const renderRowspanBody = (tbody, elem) => {
     }
 }
 
-
-
-
 const manager1 = new Manager()
 const table1 = new Table(data.colspanHeaderArray, manager1)
 
@@ -84,7 +81,6 @@ for (const elem of data.colspanDataArr) {
 }
 
 const form = new FormController(data.colspanFormFieldList, manager1)
-
 
 
 const manager2 = new Manager();
